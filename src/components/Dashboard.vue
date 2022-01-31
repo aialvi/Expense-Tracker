@@ -157,19 +157,17 @@
 </template>
 <script lang="ts">
 import CreateTransaction from "./CreateTransaction.vue";
-
-export default {
-  name: "Dashboard",
-  props: {
-    msg: String,
-  },
+import { defineComponent } from "vue";
+export default defineComponent({
   components: {
     CreateTransaction,
   },
-  data: (): unknown => ({
-    isActive: false,
-  }),
-};
+  data() {
+    return {
+      isActive: false,
+    };
+  },
+});
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->

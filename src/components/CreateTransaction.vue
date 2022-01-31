@@ -1,5 +1,5 @@
 <template>
-  <TransitionRoot as="template" :show="isActive">
+  <TransitionRoot as="template" v-if="isActive" :show="isActive">
     <Dialog
       as="div"
       class="fixed z-10 inset-0 overflow-y-auto"
@@ -58,27 +58,10 @@
                         <Field
                           type="text"
                           name="reason"
-                          placeholder="Type message..."
+                          placeholder="e.g. Rent"
                           class="p-5 mb-5 bg-white border border-gray-200 rounded shadow-sm h-12"
                           v-model="form.reason"
-                          :rules="true"
                         />
-                        <div
-                          class="flex flex-col sm:flex-row items-center mb-5 sm:space-x-5"
-                        >
-                          <div class="w-full">
-                            <p class="mb-2 font-semibold text-gray-700">Type</p>
-                            <select
-                              type="text"
-                              name="type"
-                              class="w-full p-5 bg-white border border-gray-200 rounded shadow-sm appearance-none"
-                              v-model="form.type"
-                            >
-                              <option>Credit</option>
-                              <option>Debit</option>
-                            </select>
-                          </div>
-                        </div>
                         <div
                           class="flex flex-col sm:flex-row items-center mb-5 sm:space-x-5"
                         >
@@ -99,12 +82,30 @@
                         <div
                           class="flex flex-col sm:flex-row items-center mb-5 sm:space-x-5"
                         >
+                          <div class="w-full">
+                            <p class="mb-2 font-semibold text-gray-700">Type</p>
+                            <select
+                              name="type"
+                              class="w-full p-5 bg-white border border-gray-200 rounded shadow-sm appearance-none"
+                              placeholder="Select type..."
+                              v-model="form.type"
+                            >
+                              <option>Debit</option>
+                              <option>Credit</option>
+                            </select>
+                          </div>
+                        </div>
+
+                        <div
+                          class="flex flex-col sm:flex-row items-center mb-5 sm:space-x-5"
+                        >
                           <div class="w-full mt-2 sm:mt-0">
                             <p class="mb-2 font-semibold text-gray-700">Date</p>
                             <Field
                               class="w-full p-5 bg-white border border-gray-200 rounded shadow-sm appearance-none"
                               type="date"
                               name="date"
+                              v-model="form.date"
                             />
                           </div>
                         </div>
@@ -120,6 +121,7 @@
               <button
                 type="button"
                 class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-blue-600 text-base font-medium text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 sm:ml-3 sm:w-auto sm:text-sm"
+                @click="onSubmit"
               >
                 Save
               </button>
@@ -164,17 +166,18 @@ export default defineComponent({
     isActive: Boolean,
   },
   methods: {
-    onSubmit(values: unknown) {
-      console.log(values);
+    onSubmit() {
+      console.log(this.form);
+      this.$emit("update:isActive", false);
     },
   },
   data() {
     return {
       form: {
         reason: "",
-        type: "",
+        type: "Debit",
         amount: "",
-        date: "",
+        date: new Date().toISOString().split("T")[0],
       },
     };
   },
