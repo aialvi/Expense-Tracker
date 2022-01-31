@@ -8,15 +8,34 @@ const routes: Array<RouteRecordRaw> = [
     component: Home,
   },
   {
-    path: "/create-expense",
-    name: "Create Expense",
+    path: "/login",
+    name: "Login",
+    component: () =>
+      import(/* webpackChunkName: "dashboard" */ "../views/Login.vue"),
+  },
+  {
+    path: "/registration",
+    name: "Registration",
+    component: () =>
+      import(/* webpackChunkName: "dashboard" */ "../views/Registration.vue"),
+  },
+  {
+    path: "/dashboard",
+    name: "Dashboard",
     // route level code-splitting
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
     component: () =>
-      import(
-        /* webpackChunkName: "create-transactions" */ "../views/Registration.vue"
-      ),
+      import(/* webpackChunkName: "dashboard" */ "../views/Dashboard.vue"),
+  },
+  {
+    path: "/:pathMatch(.*)*",
+    name: "Not-Found",
+    // route level code-splitting
+    // this generates a separate chunk (about.[hash].js) for this route
+    // which is lazy-loaded when the route is visited.
+    component: () =>
+      import(/* webpackChunkName: "dashboard" */ "../views/NotFound.vue"),
   },
 ];
 

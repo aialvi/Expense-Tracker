@@ -1,5 +1,5 @@
 <template>
-  <TransitionRoot as="template" v-if="isActive" :show="isActive">
+  <TransitionRoot as="template" :show="isActive">
     <Dialog
       as="div"
       class="fixed z-10 inset-0 overflow-y-auto"
@@ -122,6 +122,11 @@
                 type="button"
                 class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-blue-600 text-base font-medium text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 sm:ml-3 sm:w-auto sm:text-sm"
                 @click="onSubmit"
+                :disabled="checkForm || form.amount <= 0"
+                :class="{
+                  'opacity-50 cursor-not-allowed':
+                    checkForm || form.amount <= 0,
+                }"
               >
                 Save
               </button>
@@ -169,6 +174,11 @@ export default defineComponent({
     onSubmit() {
       console.log(this.form);
       this.$emit("update:isActive", false);
+    },
+  },
+  computed: {
+    checkForm() {
+      return Object.values(this.form).some((x) => x == "");
     },
   },
   data() {
